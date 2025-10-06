@@ -1,6 +1,6 @@
 ## About
 
-This repository provides a **DVD/CD-format ISO file** compatible with **Proxmox VE's web GUI** to create a macOS virtual machine—**no scripts required**.
+This repository provides a OpenCore **DVD/CD-format ISO file** compatible with **Proxmox VE's web GUI** to create a macOS virtual machine—**no scripts required**.
 
 Supports all Intel-based versions of macOS, from **Mac OS X 10.4** to **macOS 26**.
 
