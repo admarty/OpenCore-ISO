@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ISO_FILE_NAME=LongQT-OpenCore-v26.iso
+ISO_FILE_NAME=LongQT-OpenCore-v0.1.iso
 VOL_NAME=LongQT-OpenCore
 SOURCE_DIR=./
 BOOT_IMG=BOOT.img
@@ -8,7 +8,6 @@ BOOT_IMG=BOOT.img
 cd "$(dirname "$0")"
 
 # Cleanup
-
 find ${SOURCE_DIR} \
     \( \
         -name ".DS_Store" \
@@ -38,5 +37,6 @@ xorriso -rockridge off -as mkisofs \
   -m ".git*" \
   -m "README.md" \
   -m "Make_ISO*" \
+  -m "LICENSE" \
   -output ~/Desktop/${ISO_FILE_NAME} \
   ${SOURCE_DIR}

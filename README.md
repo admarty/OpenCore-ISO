@@ -1,6 +1,6 @@
 ## About
 
-This repository provides a OpenCore **DVD/CD-format ISO file** compatible with **Proxmox VE's web GUI** to create a macOS virtual machine—**no scripts required**.
+A properly configured OpenCore **DVD/CD-format ISO file** for use with Proxmox VE's web GUI to create a macOS virtual machine.
 
 Supports all Intel-based versions of macOS, from **Mac OS X 10.4** to **macOS 26**.
 
@@ -8,14 +8,14 @@ Supports all Intel-based versions of macOS, from **Mac OS X 10.4** to **macOS 26
 
 ## 📦 Download
 
-Grab the latest ISO release here:
-👉 [**LongQT-OpenCore-v26.iso**](https://github.com/LongQT-sea/OpenCore-ISO/releases)
+Grab the latest OpenCore ISO and macOS Recovery here:
+👉 [Release page](https://github.com/LongQT-sea/OpenCore-ISO/releases)
 
 ---
 
 ## ⚡ Quick Start Guide
 
-### 1. Create a New VM in Proxmox VE web interface
+### 1. Create a New VM in the Proxmox VE web interface
 
 ---
 
@@ -28,7 +28,7 @@ Grab the latest ISO release here:
 
 ### 3. OS
 
-* **ISO Image**: Select `LongQT-OpenCore-v26.iso`
+* **ISO Image**: Select `LongQT-OpenCore-v0.X.iso`
 * **Guest OS Type**: Leave as default (`Linux`)
 
 ---
@@ -41,8 +41,8 @@ Grab the latest ISO release here:
 * **Pre-Enroll Keys**: ❌ **Untick to disable Secure Boot**
 * **QEMU Guest Agent**:
 
-  * ✅ Enable for macOS 10.14 - macOS 26
-  * ❌ Leave disabled for macOS 10.4 - macOS 10.13
+  * ✅ Enable for macOS 10.14 – macOS 26
+  * ❌ Leave disabled for macOS 10.4 – macOS 10.13
 
 ---
 
@@ -50,10 +50,10 @@ Grab the latest ISO release here:
 
 Disk **Bus Type** depends on your macOS version:
 
-| macOS Version           | Bus Type       |
-| ----------------------- | -------------- |
-| macOS 10.15 - macOS 26  | `VirtIO Block` |
-| macOS 10.4 - macOS 10.14| `SATA`         |
+| macOS Version            | Bus Type       |
+| ------------------------ | -------------- |
+| macOS 10.15 – macOS 26   | `VirtIO Block` |
+| macOS 10.4 – macOS 10.14 | `SATA`         |
 
 ---
 
@@ -61,18 +61,23 @@ Disk **Bus Type** depends on your macOS version:
 
 #### Cores
 
-* Choose: 1 / 2 / 4 / 8 / 16 / 32 (based on your hardware)
+Choose based on your hardware: 1 / 2 / 4 / 8 / 16 / 32
 
 #### Type (Model):
 
-| macOS Version            | Recommended CPU Type |
-| ------------------------ | -------------------- |
-| macOS 10.11 - macOS 26   | `Haswell-noTSX-IBRS` / `Broadwell-noTSX-IBRS` / `Skylake-Client-v4` / `Skylake-Server-v4` `(for AVX-512)` |
-| macOS 10.4 - macOS 10.10 | `Penryn`             |
+| macOS Version            | Recommended CPU Type                                                  |
+| ------------------------ | --------------------------------------------------------------------- |
+| macOS 10.11 – macOS 26   | `Broadwell-noTSX`, `Skylake-Client-v4`, `Skylake-Server-v4` (AVX-512) |
+| macOS 10.4 – macOS 10.10 | `Penryn`                                                              |
 
-> ⚠️ **AMD CPUs require setting the CPU using the qm command, example**: `qm set [VMID] --args "-cpu Broadwell-noTSX-IBRS"`
+> ⚠️ **Notes for AMD CPUs**: 
+- Tick ✅ Advanced, under **Extra CPU Flags**, turn off `pcid` and `spec-ctrl`.
+- For macOS 13–26, instead of using the GUI, you need to set the CPU manually using the qm command, e.g.:
+- `qm set [VMID] --args "-cpu Broadwell-noTSX,vendor=GenuineIntel"`
+- `qm set [VMID] --args "-cpu Skylake-Client-v4,vendor=GenuineIntel"`
 
-> ⚠️ **Important**: Avoid using `host` or `max` CPU types—they can be **~30% slower** than the models above.
+> ⚠️ **Notes for Intel CPUs**:
+- Avoid using `host` or `max` CPU types — these can be **~30% slower** (single-core) and **~44% slower** (multi-core) compared to the recommended models.
 
 ---
 
@@ -85,13 +90,19 @@ Disk **Bus Type** depends on your macOS version:
 
 ### 8. Network
 
-Use the correct network adapter based on macOS version:
+Use the correct network adapter based on the macOS version:
 
-| macOS Version | Network Adapter    |
-| ------------- | ------------------ |
-| macOS 11 - 26       | `VirtIO` (default) |
+| macOS Version       | Network Adapter    |
+| ------------------- | ------------------ |
+| macOS 11 – 26       | `VirtIO` (default) |
 | macOS 10.11 – 10.15 | `VMware vmxnet3`   |
-| macOS 10.4 - 10.10  | `Intel E1000`      |
+| macOS 10.4 – 10.10  | `Intel E1000`      |
+
+---
+
+### 9. Finalize
+
+Don’t forget to add an **additional CD/DVD drive** for the macOS installer or macOS Recovery iso.
 
 ---
 
@@ -108,9 +119,9 @@ Do **NOT** modify the VM config to change `media=cdrom` to `media=disk`.
 
 Having issues? Check the following:
 
-* Secure Boot is **disabled** (`Pre-Enroll Keys` should be unticked)
-* ISO is mounted as **CD/DVD**, not disk
-* Ensure you're using a supported CPU model
+* Secure Boot is **disabled** (`Pre-Enroll Keys` is unticked)
+* ISO is mounted as a **CD/DVD**, not a disk
+* You’re using a supported CPU model
 
 ---
 

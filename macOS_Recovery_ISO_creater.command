@@ -90,6 +90,7 @@ cleanup_recovery() {
     if [ -d "com.apple.recovery.boot" ]; then
         print_info "Cleaning up..."
         rm -rf com.apple.recovery.boot
+        rm -rf macrecovery.py
     fi
 }
 
@@ -167,19 +168,8 @@ create_iso() {
     fi
     
     print_info "Creating bootable ISO..."
-    
-    if [ -f "$output_path" ]; then
-        print_warning "ISO file already exists at $output_path"
-        read -p "Overwrite? (y/n): " -n 1 -r
-        echo
-        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-            print_info "Skipping ISO creation"
-            return
-        fi
-        rm -f "$output_path"
-    fi
-    
-    hdiutil makehybrid $hdiutil_opts \
+
+    hdiutil makehybrid -ov $hdiutil_opts \
         -default-volume-name "${version_name}_Recovery" \
         -o "$output_path" \
         "$recovery_path"
