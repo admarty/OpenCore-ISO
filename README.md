@@ -1,8 +1,13 @@
 ## About
 
-A properly configured OpenCore **DVD/CD-format ISO file** for use with Proxmox VE's web GUI to create a macOS virtual machine.
+A properly configured OpenCore **DVD/CD-format ISO file** for Proxmox VE to create macOS virtual machines.
 
 Supports all Intel-based versions of macOS, from **Mac OS X 10.4** to **macOS 26**.
+
+**For AMD users**:
+
+> Enjoy a true **vanilla macOS** experience with no kernel patches for stable operation.
+> This is probably the best way to run macOS on AMD hardware, at least you still retain access to the hypervisor to run other VMs.
 
 ---
 
@@ -48,12 +53,17 @@ Grab the latest OpenCore ISO and macOS Recovery here:
 
 ### 5. Hard Disk
 
-Disk **Bus Type** depends on your macOS version:
+The disk **bus type** depends on your needs:
 
-| macOS Version            | Bus Type       |
-| ------------------------ | -------------- |
-| macOS 10.15 – macOS 26   | `VirtIO Block` |
-| macOS 10.4 – macOS 10.14 | `SATA`         |
+* **VirtIO**: Better performance
+* **SATA**: Supports TRIM/discard for more efficient storage usage
+
+| macOS Version            | Recommended Bus Type    |
+| ------------------------ | ----------------------- |
+| macOS 10.15 – macOS 26   | `VirtIO Block` / `SATA` |
+| macOS 10.4 – macOS 10.14 | `SATA`                  |
+
+**Note:** SATA is recommended because it supports TRIM/discard for more efficient storage usage.
 
 ---
 
@@ -76,8 +86,8 @@ Choose based on your hardware: 1 / 2 / 4 / 8 / 16 / 32
 - `qm set [VMID] --args "-cpu Broadwell-noTSX,vendor=GenuineIntel"`
 - `qm set [VMID] --args "-cpu Skylake-Client-v4,vendor=GenuineIntel"`
 
-> ⚠️ **Notes for Intel CPUs**:
-- Avoid using `host` or `max` CPU types — these can be **~30% slower** (single-core) and **~44% slower** (multi-core) compared to the recommended models.
+> ⚠️ **Notes for Intel CPUs**:  
+> - Avoid using [`host` or `max`](https://browser.geekbench.com/v6/cpu/14313138) CPU types — these can be **~30% slower** (single-core) and **~44% slower** (multi-core) compared to the [`recommended`](https://browser.geekbench.com/v6/cpu/14205183) model.
 
 ---
 
