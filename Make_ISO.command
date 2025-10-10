@@ -38,5 +38,6 @@ xorriso -rockridge off -as mkisofs \
   -m "README.md" \
   -m "Make_ISO*" \
   -m "LICENSE" \
+  -m "cpu-models.conf" \
   -output ~/Desktop/${ISO_FILE_NAME} \
   ${SOURCE_DIR}

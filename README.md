@@ -40,14 +40,14 @@ Get the latest OpenCore ISO and macOS Recovery here: 👉 [Release page](https:/
 
 ### 4. System
 
-* **Machine Type**: `q35`
+* **Machine Type**: `q35` (if you must use `i440fx`, [cpu-models.conf](https://github.com/LongQT-sea/OpenCore-ISO/blob/main/cpu-models.conf) is required)
 * **BIOS**: UEFI (OVMF)
 * **Add EFI Disk**: ✅ Enabled
-* **Pre-Enroll Keys**: ❌ Disable Secure Boot
+* **Pre-Enroll Keys**: ❌ Untick to disable Secure Boot
 * **QEMU Guest Agent**:
 
   * ✅ Enable for macOS 10.14 – macOS 26
-  * ❌ Disable for macOS 10.4 – macOS 10.13
+  * ❌ Leave as default for macOS 10.4 – macOS 10.13
 
 ---
 
@@ -63,8 +63,7 @@ The **disk bus type** depends on your needs:
 | macOS 10.15 – macOS 26   | `VirtIO Block` / `SATA` |
 | macOS 10.4 – macOS 10.14 | `SATA`                  |
 
-**Note:**
-SATA with ✅ **SSD emulation** and ✅ **Discard** enabled is recommended to enable TRIM/discard for better storage efficiency.
+**Note:** SATA with ✅ **SSD emulation** and ✅ **Discard** enabled is recommended to enable TRIM/discard for better storage efficiency.
 
 ---
 
