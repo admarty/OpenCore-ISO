@@ -58,7 +58,7 @@ The disk **bus type** depends on your needs:
 * **VirtIO**: Better performance
 * **SATA**: Supports TRIM/discard for more efficient storage usage
 
-| macOS Version            | Recommended Bus Type    |
+| macOS Version            | Support Bus Type        |
 | ------------------------ | ----------------------- |
 | macOS 10.15 – macOS 26   | `VirtIO Block` / `SATA` |
 | macOS 10.4 – macOS 10.14 | `SATA`                  |
