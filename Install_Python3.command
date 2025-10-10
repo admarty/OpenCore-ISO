@@ -1,4 +1,5 @@
 #!/bin/bash
+# Copyright (c) 2024-2025, LongQT-sea
 
 # macOS Python3 Silent Installer
 # Installs appropriate Python3 version based on macOS version

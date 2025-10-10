@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# Copyright (c) 2024-2025, LongQT-sea
 # macOS Recovery ISO Creator
 # Downloads macOS recovery images and converts them to bootable ISO files
 
