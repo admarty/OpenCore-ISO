@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ISO_FILE_NAME=LongQT-OpenCore-v0.2.iso
+ISO_FILE_NAME=LongQT-OpenCore-v0.3.iso
 VOL_NAME=LongQT-OpenCore
 SOURCE_DIR=./
 BOOT_IMG=BOOT.img
@@ -37,7 +37,7 @@ xorriso -rockridge off -as mkisofs \
   -m ".git*" \
   -m "README.md" \
   -m "Make_ISO*" \
-  -m "LICENSE" \
+  -m "LICENSE*" \
   -m "cpu-models.conf" \
   -output ~/Desktop/${ISO_FILE_NAME} \
   ${SOURCE_DIR}

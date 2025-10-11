@@ -4,11 +4,10 @@ A properly configured OpenCore **DVD/CD-format ISO file** for Proxmox VE to crea
 
 Supports all Intel-based macOS versions — from **Mac OS X 10.4** to **macOS 26**.
 
-**For AMD users:**
-
+> [!TIP]
+> **For AMD users:**
 > Enjoy a true **vanilla macOS** experience with no kernel patches required for stable operation.
-
-> This is likely the best way to run macOS on AMD hardware while still retaining full hypervisor access for other VMs.
+> This is likely the best way to run macOS on AMD hardware while still retaining full hypervisor access to run other VMs.
 
 ---
 
@@ -40,7 +39,7 @@ Get the latest OpenCore ISO and macOS Recovery here: 👉 [Release page](https:/
 
 ### 4. System
 
-* **Machine Type**: `q35` (if you must use `i440fx`, [cpu-models.conf](https://github.com/LongQT-sea/OpenCore-ISO/blob/main/cpu-models.conf) is required)
+* **Machine Type**: `q35` ***(if you must use `i440fx`, [cpu-models.conf](https://github.com/LongQT-sea/OpenCore-ISO/blob/main/cpu-models.conf) is required)***
 * **BIOS**: UEFI (OVMF)
 * **Add EFI Disk**: ✅ Enabled
 * **Pre-Enroll Keys**: ❌ Untick to disable Secure Boot
@@ -60,7 +59,7 @@ The **disk bus type** depends on your needs:
 
 | macOS Version            | Supports Bus Type       |
 | ------------------------ | ----------------------- |
-| macOS 10.15 – macOS 26   | `VirtIO Block` / `SATA` |
+| macOS 10.15 – macOS 26   | `SATA` / `VirtIO Block` |
 | macOS 10.4 – macOS 10.14 | `SATA`                  |
 
 **Note:** SATA with ✅ **SSD emulation** and ✅ **Discard** enabled is recommended to enable TRIM/discard for better storage efficiency.
@@ -80,18 +79,23 @@ Choose based on your hardware: 1 / 2 / 4 / 8 / 16 / 32
 | macOS 10.11 – macOS 26   | `Broadwell-noTSX`, `Skylake-Client-v4`, `Skylake-Server-v4` (AVX-512) |
 | macOS 10.4 – macOS 10.10 | `Penryn`                                                              |
 
-> ⚠️ **Notes for AMD CPUs:**
->
+> [!NOTE]
+> **Notes for AMD CPUs:**
 > * Tick ✅ **Advanced**, and under **Extra CPU Flags**, turn off `pcid` and `spec-ctrl`.
-> * For **macOS 13–26**, set the CPU manually via the Proxmox Shell, example:
+> * For **macOS 13–26**, set the CPU manually via the Proxmox VE Shell, example:
 >
 >   ```
 >   qm set [VMID] --args "-cpu Broadwell-noTSX,vendor=GenuineIntel"
 >   qm set [VMID] --args "-cpu Skylake-Client-v4,vendor=GenuineIntel"
 >   ```
-
-> ⚠️ **Notes for Intel CPUs:**
+>   
+>  **Notes for Intel CPUs:**
 >
+> * Intel HEDT / Xeon E5 v3/v4 set the CPU manually via the Proxmox VE Shell, example:
+>   ```
+>   qm set [VMID] --args "-cpu Haswell-noTSX,vendor=GenuineIntel,model=158"
+>   qm set [VMID] --args "-cpu Broadwell-noTSX,vendor=GenuineIntel,model=158"
+>   ```
 > * Avoid using [`host` or `max`](https://browser.geekbench.com/v6/cpu/14313138) CPU types — they can be **~30% slower (single-core)** and **~44% slower (multi-core)** compared to the [`recommended`](https://browser.geekbench.com/v6/cpu/14205183) types.
 
 ---
@@ -121,12 +125,20 @@ Add an **additional CD/DVD drive** for the macOS installer or Recovery ISO.
 
 ---
 
-## ⚠️ Important Notes
+> [!IMPORTANT]
+> - For PCIe/dGPU passthrough on **q35**, you have to disable ACPI-based PCI hotplug (revert to PCIe native hotplug)
+>   - Open Proxmox VE Shell and run:
+>     ```bash
+>     read -p "Enter VMID: " VMID; \
+>     ARGS="$(qm config $VMID --current | grep ^args: | cut -d' ' -f2-)"; \
+>     qm set $VMID -args "$ARGS -global ICH9-LPC.acpi-pci-hotplug-with-bridge-support=off"
+>     ```
 
-### ISO Image Format
+---
 
-This is a **true DVD ISO image**.
-Do **NOT** modify the VM config to change `media=cdrom` to `media=disk`.
+> [!CAUTION]
+> These iso are **true CD/DVD ISO image**.
+> Do **NOT** modify the VM config to change ***`media=cdrom`*** to ***`media=disk`***.
 
 ---
 
