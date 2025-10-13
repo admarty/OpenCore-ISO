@@ -121,20 +121,18 @@ Choose the correct adapter based on macOS version:
 
 ### 9. Finalize
 
-Add an **additional CD/DVD drive** for the macOS installer or Recovery ISO.
+Add an **additional CD/DVD drive** for the macOS installer or Recovery ISO, then start the VM.
 
 ---
 
 > [!IMPORTANT]
-> - For PCIe/dGPU passthrough on **q35**, you have to disable ACPI-based PCI hotplug (revert to PCIe native hotplug)
->   - Open Proxmox VE Shell and run:
->     ```bash
->     read -p "Enter VMID: " VMID; \
->     ARGS="$(qm config $VMID --current | grep ^args: | cut -d' ' -f2-)"; \
->     qm set $VMID -args "$ARGS -global ICH9-LPC.acpi-pci-hotplug-with-bridge-support=off"
->     ```
-
----
+> For PCIe/dGPU passthrough on **q35**, you have to disable ACPI-based PCI hotplug (revert to PCIe native hotplug)
+> - Open Proxmox VE Shell and run:
+> ```bash
+> read -p "Enter VMID: " VMID; \
+> ARGS="$(qm config $VMID --current | grep ^args: | cut -d' ' -f2-)"; \
+> qm set $VMID -args "$ARGS -global ICH9-LPC.acpi-pci-hotplug-with-bridge-support=off"
+> ```
 
 > [!CAUTION]
 > These iso are **true CD/DVD ISO image**.
