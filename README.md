@@ -135,7 +135,8 @@ Add an **additional CD/DVD drive** for the macOS installer or Recovery ISO, then
 
 ### 10. Post-Install
 
-* After macOS is installed, open `LongQT-OpenCore` on the Desktop and run `Mount_EFI.command` to mount the EFI partition on your macOS disk. Then copy the EFI folder from `LongQT-OpenCore/EFI_RELEASE/` to the mounted EFI partition. This way, next time it will boot using the EFI inside your macOS disk.
+* After macOS is installed, open `LongQT-OpenCore` on the Desktop and run `Mount_EFI.command` to mount the EFI partition on your macOS disk.
+* Copy the EFI folder from `LongQT-OpenCore/EFI_RELEASE/` to the mounted EFI partition. This ensures that next time, macOS will boot using the EFI stored on macOS disk.
 * Run `Install_Python3.command` to install Python 3 - many apps and scripts need it.
 * Finally, copy `Mount_EFI.command` and `ProperTree` to the Desktop for later use when you need to edit `config.plist`.
 
