@@ -39,7 +39,7 @@ Get the latest OpenCore ISO and macOS Recovery here: 👉 [Release page](https:/
 
 ### 4. System
 
-* **Machine Type**: `q35` ***(if you must use `i440fx`, [cpu-models.conf](https://github.com/LongQT-sea/OpenCore-ISO/blob/main/cpu-models.conf) is required)***
+* **Machine Type**: `q35` *(if you must use `i440fx`, [cpu-models.conf](https://github.com/LongQT-sea/OpenCore-ISO/blob/main/cpu-models.conf) is required)*
 * **BIOS**: UEFI (OVMF)
 * **Add EFI Disk**: ✅ Enabled
 * **Pre-Enroll Keys**: ❌ Untick to disable Secure Boot
@@ -55,14 +55,16 @@ Get the latest OpenCore ISO and macOS Recovery here: 👉 [Release page](https:/
 The **disk bus type** depends on your needs:
 
 * **VirtIO** – Better performance
-* **SATA** – Supports TRIM/discard for more efficient storage usage
+* **SATA** – Supports TRIM/Discard for more efficient storage usage
 
 | macOS Version            | Supports Bus Type       |
 | ------------------------ | ----------------------- |
 | macOS 10.15 – macOS 26   | `SATA` / `VirtIO Block` |
 | macOS 10.4 – macOS 10.14 | `SATA`                  |
 
-**Note:** SATA with ✅ **SSD emulation** and ✅ **Discard** enabled is recommended to enable TRIM/discard for better storage efficiency.
+> [!Tip]
+> Choosing `SATA` with ✅ SSD emulation and ✅ Discard enabled is recommended, as it automatically supports TRIM for more efficient storage usage.
+
 
 ---
 
@@ -70,7 +72,13 @@ The **disk bus type** depends on your needs:
 
 #### Cores
 
-Choose based on your hardware: 1 / 2 / 4 / 8 / 16 / 32
+* Choose based on your hardware: 1 / 2 / 4 / 8 / 16 / 32 / 64
+
+> [!TIP]
+> * For 6 cores: choose 2 cores and 3 sockets
+> * For 12 cores: choose 4 cores and 3 sockets
+> * For 20 cores: choose 4 cores and 5 sockets
+> * For 24 cores: choose 8 cores and 3 sockets
 
 #### Type (Model)
 
@@ -80,23 +88,23 @@ Choose based on your hardware: 1 / 2 / 4 / 8 / 16 / 32
 | macOS 10.4 – macOS 10.10 | `Penryn`                                                              |
 
 > [!NOTE]
-> **Notes for AMD CPUs:**
+> **AMD CPUs:**
 > * Tick ✅ **Advanced**, and under **Extra CPU Flags**, turn off `pcid` and `spec-ctrl`.
-> * For **macOS 13–26**, set the CPU manually via the Proxmox VE Shell, example:
+> * For **macOS 13 – macOS 26**, set the CPU manually via the Proxmox VE Shell, example:
 >
 >   ```
 >   qm set [VMID] --args "-cpu Broadwell-noTSX,vendor=GenuineIntel"
 >   qm set [VMID] --args "-cpu Skylake-Client-v4,vendor=GenuineIntel"
 >   ```
->   
->  **Notes for Intel CPUs:**
+> ---
+>  **Intel CPUs:**
+> * Intel HEDT / E5-2xxx v3/v4 set the CPU manually via the Proxmox VE Shell, example:
 >
-> * Intel HEDT / Xeon E5 v3/v4 set the CPU manually via the Proxmox VE Shell, example:
 >   ```
->   qm set [VMID] --args "-cpu Haswell-noTSX,vendor=GenuineIntel,model=158"
 >   qm set [VMID] --args "-cpu Broadwell-noTSX,vendor=GenuineIntel,model=158"
+>   qm set [VMID] --args "-cpu Skylake-Client-v4,vendor=GenuineIntel,model=158"
 >   ```
-> * Avoid using [`host` or `max`](https://browser.geekbench.com/v6/cpu/14313138) CPU types — they can be **~30% slower (single-core)** and **~44% slower (multi-core)** compared to the [`recommended`](https://browser.geekbench.com/v6/cpu/14205183) types.
+> * Avoid using [`host` or `max`](https://browser.geekbench.com/v6/cpu/14313138) CPU types — they can be **~30% slower (single-core)** and **~44% slower (multi-core)** compared to [`recommended`](https://browser.geekbench.com/v6/cpu/14205183) CPU types.
 
 ---
 
@@ -121,7 +129,18 @@ Choose the correct adapter based on macOS version:
 
 ### 9. Finalize
 
-Add an **additional CD/DVD drive** for the macOS installer or Recovery ISO, then start the VM.
+Add an **additional CD/DVD drive** for the macOS installer or Recovery ISO, then start the VM to proceed with the installation of macOS.
+
+---
+
+### 10. Post-Install
+
+* After macOS is installed, open `LongQT-OpenCore` on the Desktop and run `Mount_EFI.command` to mount the EFI partition on your macOS disk. Then copy the EFI folder from `LongQT-OpenCore/EFI_RELEASE/` to the mounted EFI partition. This way, next time it will boot using the EFI inside your macOS disk.
+* Run `Install_Python3.command` to install Python 3 - many apps and scripts need it.
+* Finally, copy `Mount_EFI.command` and `ProperTree` to the Desktop for later use when you need to edit `config.plist`.
+
+> [!TIP]
+> Use `Create_Recovery_ISO.command` to download macOS Recovery from Apple and convert it to an ISO CD/DVD file.
 
 ---
 
