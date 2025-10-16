@@ -141,8 +141,8 @@ Add an **additional CD/DVD drive** for the macOS installer or Recovery ISO, then
 * Finally, copy `Mount_EFI.command` and `ProperTree` to the Desktop for later use when you need to edit `config.plist`.
 
 > [!TIP]
-> Use Create_Recovery_ISO.command to download the macOS Recovery image from Apple and convert it into a macOS Recovery ISO file.
-> Use Create_macOS_ISO.command to download the full macOS installer from Apple and create a true DVD-format macOS installer ISO file.
+> * Use Create_Recovery_ISO.command to download the macOS Recovery image from Apple and convert it into a macOS Recovery ISO file.
+> * Use Create_macOS_ISO.command to download the full macOS installer from Apple and create a true DVD-format macOS installer ISO file.
 
 > [!IMPORTANT]
 > For PCIe/dGPU passthrough on **q35**, you have to disable ACPI-based PCI hotplug (revert to PCIe native hotplug)
