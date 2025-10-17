@@ -2,7 +2,8 @@
 
 # Copyright (c) 2024-2025, LongQT-sea
 # macOS Full Installer ISO Creator
-# This script downloads macOS installers from Apple server and creates DVD/CD ISO files for Proxmox VE, QEMU/KVM and VMware.
+# This script downloads macOS installers from Apple servers and creates a DVD/CD ISO macOS installer from them.
+# For use with Proxmox, QEMU, VirtualBox and VMware.
 
 set -e  # Exit on error
 
@@ -235,7 +236,7 @@ create_iso() {
     sleep 2
     
     # Step 4: Create hybrid ISO
-    print_color $BLUE "Step 4/4: Creating hybrid ISO (this may take several minutes)..."
+    print_color $BLUE "Step 4/4: Creating hybrid ISO ..."
     if hdiutil makehybrid -hfs -udf -o "$iso_file" "$sparse_image"; then
         print_color $GREEN "ISO created successfully"
     else
@@ -272,7 +273,7 @@ main() {
     # Check for required tools
     for tool in softwareupdate hdiutil diskutil bc; do
         if ! command -v $tool &> /dev/null; then
-            print_color $RED "Error: Required tool $tool is not installed."
+            print_color $RED "Error: Required tool $tool is not found."
             exit 1
         fi
     done
